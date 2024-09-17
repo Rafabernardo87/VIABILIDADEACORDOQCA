@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>VIABILIDADE ACORDO</title>
+  <style>
+    /* Importa a fonte Aptos */
+    @import url('https://fonts.googleapis.com/css2?family=Aptos:wght@400;600&display=swap');
+
+    /* Aplica a fonte ao corpo e elementos de texto */
+    body {
+      font-family: 'Aptos', sans-serif;
+    }
+    button {
+      font-family: 'Aptos', sans-serif;
+    }
+    p {
+      font-family: 'Aptos', sans-serif;
+    }
+    textarea, input, select {
+      font-family: 'Aptos', sans-serif;
+    }
+  </style>
+  <script>
+    function selecionarTexto() {
+      var elemento = document.getElementById("resultadoTexto");
+
+      if (document.body.createTextRange) {
+        // Internet Explorer
+        var range = document.body.createTextRange();
+        range.moveToElementText(elemento);
+        range.select();
+      } else if (window.getSelection) {
+        // Outros navegadores
+        var range = document.createRange();
+        range.selectNode(elemento);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+      }
+
+      // Copiar para a área de transferência (opcional)
+      document.execCommand("copy");
+    }
+
+    function copiarExplicacao() {
+      var estorno = document.getElementById("estornoTexto").value;
+      
+      // Criar elemento temporário para copiar o texto
+      var tempElement = document.createElement("textarea");
+      tempElement.style.position = "absolute";
+      tempElement.style.left = "-10000px";
+      tempElement.value = estorno;
+      document.body.appendChild(tempElement);
+      tempElement.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempElement);
+    }
+
+    function obterOpcaoSelecionada() {
+      var prazo = document.getElementById("prazo").value || "N/A";
+      var danoMoral = document.getElementById("danoMoral").value || "N/A";
+      var tipoOBF = document.getElementById("tipoOBF").value || "N/A";
+
+      var textoExplicativo = "No presente caso, estamos em processo de negociação para formalizar um acordo. Assim, para dar continuidade às tratativas, gostaríamos de saber se podemos avançar com o acordo em paralelo com a OBF a seguir:";
+
+      var resposta = "Devemos incluir a OBF diretamente no acordo ou estabelecer um valor de conversão?";
+
+      var resultado = ` ${textoExplicativo}
+      \n\n• TIPO DA OBF: ${tipoOBF}
+      \n\n• PRAZO: ${prazo}
+      \n\n• DANO MORAL: R$ ${danoMoral}
+      \n\n ${resposta}`;
+
+      document.getElementById("resultadoTexto").innerText = resultado;
+    }
+
+    function limparModelo() {
+      document.getElementById('form6').reset();
+      document.getElementById('form8').reset();
+      document.getElementById('form9').reset();
+      document.getElementById('form11').reset();
+      document.getElementById('resultadoTexto').innerText = '';
+    }
+  </script>
+</head>
+<body>
+<center>
+  <!-- Botão "Limpar modelo" -->
+  <button onclick="limparModelo()" style="padding: 10px 20px; background-color: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer;">
+    Limpar Modelo
+  </button>
+
+  <p align="center" style="font-family: 'Aptos', sans-serif; font-size: 28px; color: Black;">VIABILIDADE ACORDO</p>
+</center>
+
+<table style="width: 100%; font-family: 'Aptos', sans-serif;">
+<tr>
+  <td style="width: 50%; background-color: #ffffff;">
+    <p>No presente caso, estamos em processo de negociação para formalizar um acordo. Assim, para dar continuidade às tratativas, gostaríamos de saber se podemos avançar com o acordo em paralelo com a OBF a seguir:</p>
+
+    <p>• Tipo da OBF:</p>
+    <form id="form9">
+      <select name="tipoOBF" id="tipoOBF">
+        <option value="0"></option>
+        <option value="TROCA DO PRODUTO">TROCA DO PRODUTO</option>
+        <option value="ENTREGA DO PRODUTO">ENTREGA DO PRODUTO</option>
+        <option value="EXCLUSÃO DE RESTRITIVOS">EXCLUSÃO DE RESTRITIVOS</option>
+        <option value="INEXIGIBILIDADE DO DÉBITO">INEXIGIBILIDADE DO DÉBITO</option>
+      </select>
+    </form>
+
+    <p>• Prazo:</p>
+    <form id="form6">
+      <input type="date" name="prazo" id="prazo">
+    </form>
+
+    <p>• Dano Moral:</p>
+    <form id="form8">
+      <input type="text" name="danoMoral" id="danoMoral">
+    </form>
+
+    <p>• Opinativo do escritório:</p>
+    <form id="form11">
+      <textarea name="estorno" id="estornoTexto" rows="4" cols="50" readonly>Devemos incluir a OBF diretamente no acordo ou estabelecer um valor de conversão?</textarea>
+    </form>
+
+    <p>
+      <button type="button" onclick="obterOpcaoSelecionada()">OBTER MODELO</button>
+      <button type="button" onclick="copiarExplicacao()">COPIAR EXPLICAÇÃO</button>
+    </p>
+  </td>
+
+  <td style="width: 50%; background-color: #ffffff;">
+    <p id="resultadoTexto"></p>
+    <button onclick="selecionarTexto()">OBTER MODELO</button>
+  </td>
+</tr>
+</table>
+</body>
+</html>
+
+
